@@ -48,7 +48,7 @@ def download_products(categorie): #valide
     try:
         r = requests.get("https://fr.openfoodfacts.org/cgi/search.pl?", params=API_PAYLOAD).json()
         products_unchecked = r["products"]        
-        return products_unchecked    # [{}, ..., {}]
+        return products_unchecked
     except:
         print("Error whith api request")
 
@@ -122,7 +122,6 @@ def formating_data(products):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-    print("test succesfull")
 
 
 

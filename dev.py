@@ -14,7 +14,7 @@ my_cursor = cnx.cursor()
 #my_cursor.execute("DROP DATABASE purbeurre")
 
 # creation and activation of the database
-functions.create_database(my_cursor, cte.DB_NAME)
+#functions.create_database(my_cursor, cte.DB_NAME)
 try:
     my_cursor.execute("USE {}".format(cte.DB_NAME)) # select the DB
 except mysql.connector.error as err:
@@ -28,9 +28,9 @@ try:
 except:
     pass
 
-# Fill the tables 
-my_cursor.executemany(cte.SQL_ADD_CAT, cte.MY_CATEGORIES)
-cnx.commit()
+# Fill the tables ***************************************************** A FAIRE
+#my_cursor.executemany(cte.SQL_ADD_CAT, cte.MY_CATEGORIES) # inser cat_name
+#cnx.commit()
 
 for id_cat, categorie in enumerate(cte.MY_CATEGORIES):
     
@@ -46,8 +46,8 @@ for id_cat, categorie in enumerate(cte.MY_CATEGORIES):
     products_checked_format = functions.formating_data(products_checked)
 
     # Fill TABLE PRODUCTS
-    my_cursor.executemany(cte.SQL_ADD_PROD, products_checked_format)
-    cnx.commit()
+    #my_cursor.executemany(cte.SQL_ADD_PROD, products_checked_format)
+    #cnx.commit()
 
 # ----------------------------------------------------------------------------
 # INTERFACE ------------------------------------------------------------------
