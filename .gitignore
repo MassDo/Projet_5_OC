@@ -1,3 +1,5 @@
 /.idea
+
 /__pycache__
-/products/__pycache__/
+
+/products/__pycache__
