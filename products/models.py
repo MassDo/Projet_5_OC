@@ -1,21 +1,31 @@
-#coding:utf-8
+# coding:utf-8
+
+"""
+    This module regroup the classes
+    that modelise the database's tables
+
+    Each class represent a table
+"""
 import mysql.connector
-from products.repositories import (Tab_categories_repository,
-                                    Tab_products_repository,
-                                    Tab_historique_repository)
+from products.repositories import (TabCategoriesRepository,
+                                   TabProductsRepository,
+                                   TabHistoriqueRepository)
 import products.constantes as cte 
 
 # MySQL connection
 cnx = mysql.connector.connect(**cte.CONFIG)
 my_cursor = cnx.cursor()
 
-class Tab_products:
 
-    objects = Tab_products_repository(my_cursor, cnx)
+class TabProducts:
+    """
+        model of the tab_products
+    """
+
+    objects = TabProductsRepository(my_cursor, cnx)
 
     def __init__(self, *args):
-        
-        #self.ID_prod  = # afaire
+
         self.product_name = []
         self.url = []
         self.stores = []
@@ -44,22 +54,29 @@ class Tab_products:
                 self.fat_100g.append(prod["fat_100g"])
                 self.ID_cat.append(prod["ID_cat"])
 
-class Tab_historique:
 
-    objects = Tab_historique_repository(my_cursor, cnx)
+class TabHistorique:
+    """
+        model of the tab_products
+    """
 
-    def __init__(self, old_ID_prod = None, new_ID_prod = None):
+    objects = TabHistoriqueRepository(my_cursor, cnx)
+
+    def __init__(self, old_id_prod = None, new_id_prod = None):
         
-        self.old_ID_prod = old_ID_prod
-        self.new_ID_prod = new_ID_prod
+        self.old_id_prod = old_id_prod
+        self.new_id_prod = new_id_prod
 
-class Tab_categories:
 
-    objects = Tab_categories_repository(my_cursor, cnx)
+class TabCategories:
+    """
+        model of the tab_products
+    """
+
+    objects = TabCategoriesRepository(my_cursor, cnx)
 
     def __init__(self, cat_name = None, cat_description = None):
 
-        #self.ID_hist = # a faire
         self.cat_name = cat_name
         self.cat_description = cat_description
 

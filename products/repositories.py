@@ -1,35 +1,60 @@
-#coding:utf-8
+# coding:utf-8
+
+"""
+    This module regroup the methods called
+    by the class attribute "objects" from the
+    classes of the module "models".
+
+    The goal of this module is to set a layer of abstraction
+    that deal with the sql queries.
+
+"""
+
 from products.settings import products_final
-import products.constantes as cte 
 from products.functions import use_database
+
  
-class Base_repository:
+class BaseRepository:
+    """
+        This parent class is used to give
+        cursor and connection in heritage.
+    """
 
     def __init__(self, my_cursor, cnx):
 
         self.my_cursor = my_cursor
         self.cnx = cnx
-     
 
-class Tab_categories_repository(Base_repository):
-    
+
+class TabCategoriesRepository(BaseRepository):
+    """
+        Class used to regroup the methods used
+        to manipulate the table "tab_categories".
+
+    """
+
     def fill(self, cat_name):
         """
-            fill the table with the object's attributes
+            fill the table with cat_name
         """
-        SQL = """INSERT INTO purbeurre.tab_categories (cat_name) VALUES (%s)"""
-        self.my_cursor.execute(SQL, cat_name)
-        self.cnx.commit()       
-    
+        sql = """INSERT INTO purbeurre.tab_categories (cat_name) VALUES (%s)"""
+        self.my_cursor.execute(sql, cat_name)
+        self.cnx.commit()
 
-class Tab_products_repository(Base_repository):
+
+class TabProductsRepository(BaseRepository):
+    """
+        Class used to regroup the methods used
+        to manipulate the table "tab_products".
+
+    """
 
     def fill(self):
         """
             fill the table with the object's attributes
         """
         use_database(self.my_cursor)
-        SQL = """ INSERT INTO tab_products(
+        sql = """ INSERT INTO tab_products(
                 product_name,
                 url,
                 stores,
@@ -56,7 +81,7 @@ class Tab_products_repository(Base_repository):
                 %(ID_cat)s)
             """
         for cat in products_final:
-            self.my_cursor.executemany(SQL, cat)
+            self.my_cursor.executemany(sql, cat)
             self.cnx.commit()
 
     def get_product_from_categorie(self, categorie):
@@ -67,32 +92,31 @@ class Tab_products_repository(Base_repository):
             () = (ID_prod, product_name, ..., ID_cat)
         """
 
-        SQL = """ 
+        sql = """ 
                 SELECT ID_cat FROM tab_categories
                 WHERE cat_name = '{}'
             """.format(categorie)
 
-        self.my_cursor.execute(SQL)
+        self.my_cursor.execute(sql)
         id_cat = self.my_cursor.fetchall()
-        
-        SQL = """
+
+        sql = """
                 SELECT * FROM tab_products
                 WHERE ID_cat = {}
             """.format(int(id_cat[0][0]))
 
-        self.my_cursor.execute(SQL)
-        
+        self.my_cursor.execute(sql)
+
         return self.my_cursor.fetchall()
 
     def get_best_product_from_cat(self, ID_cat):
 
         """
             return a list of the fields of the best food
-            for categorie
+            for categories
         """
 
-
-        SQL = """ 
+        sql = """ 
                 SELECT * FROM tab_products
                 WHERE ID_cat = {} 
                 ORDER BY 
@@ -103,7 +127,7 @@ class Tab_products_repository(Base_repository):
                         CAST(salt_100g as DECIMAL(5, 3)) ASC                
             """.format(ID_cat)
 
-        self.my_cursor.execute(SQL)
+        self.my_cursor.execute(sql)
         liste_aliments_tries = self.my_cursor.fetchall()
 
         return liste_aliments_tries[0]
@@ -114,39 +138,44 @@ class Tab_products_repository(Base_repository):
             for a categorie
         """
 
-        SQL = """
+        sql = """
                 SELECT ID_prod 
                 FROM tab_products
                 WHERE ID_cat = {}
-            """.format(ID_cat)  
-        self.my_cursor.execute(SQL)
+            """.format(ID_cat)
+        self.my_cursor.execute(sql)
 
         return self.my_cursor.fetchall()
 
 
-class Tab_historique_repository(Base_repository):
+class TabHistoriqueRepository(BaseRepository):
+    """
+        Class used to regroup the methods
+        to manipulate the table "tab_historique".
+
+    """
        
-    def fill(self, old_ID_prod, new_ID_prod):
+    def fill(self, old_id_prod, new_id_prod):
         """
             fill the table with the object's attributes
         """
-        SQL = """
-                INSERT INTO tab_historique(old_ID_prod, new_ID_prod)
+        sql = """
+                INSERT INTO tab_historique(old_id_prod, new_id_prod)
                 VALUES (%s, %s)
             """
-        self.my_cursor.execute(SQL, (old_ID_prod, new_ID_prod))
+        self.my_cursor.execute(sql, (old_id_prod, new_id_prod))
         self.cnx.commit() 
 
     def show_products_old_new(self):
         """
-            show the fields of the old and news products 
+            show the fields of the old and new products
         """
         
-        SQL = """
-                SELECT old_ID_prod, new_ID_prod
+        sql = """
+                SELECT old_id_prod, new_id_prod
                 FROM tab_historique                
         """
-        self.my_cursor.execute(SQL)
+        self.my_cursor.execute(sql)
         transactions = self.my_cursor.fetchall()
 
         historique_all = []
@@ -154,16 +183,16 @@ class Tab_historique_repository(Base_repository):
             historique_transac = []
             for id_prod in transac:        
 
-                SQL = """
+                sql = """
                         SELECT * FROM tab_products
                         WHERE ID_prod = {}
                     """.format(id_prod)
 
-                self.my_cursor.execute(SQL)
+                self.my_cursor.execute(sql)
                 prod = self.my_cursor.fetchone()
                 historique_transac.append(prod)
             historique_all.append(historique_transac)         
 
         return historique_all
-        # structure: [[(), ..., ()], ..., [(), ..., ()]]
-        # structure: [[(old1), (new1)], [(old2), (new2)], ..., [(old n), (new n)]]
+        # historique_all structure:
+        # [[(old1), (new1)], [(old2), (new2)], ..., [(old n), (new n)]]

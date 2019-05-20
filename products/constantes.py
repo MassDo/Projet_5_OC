@@ -1,15 +1,19 @@
-#coding:utf-8
+# coding:utf-8
 
-# Connection
+"""
+    Constants of the programme
+"""
+
+# SERVER CONFIGURATION
 CONFIG = {
-        "host":"localhost",
-        "user":"root",
-        "password":"",
+        "host": "localhost",
+        "user": "root",
+        "password": ""
 }
 
 DB_NAME = "purbeurre"
 
-# Create tables
+# CREATE TABLES
 CREATE_CATEGORIES = """ CREATE TABLE tab_categories(
                     ID_cat int AUTO_INCREMENT PRIMARY KEY NOT NULL,
                     cat_name varchar(255) NOT NULL,
@@ -39,14 +43,14 @@ CREATE_PRODUCTS = """ CREATE TABLE tab_products(
 CREATE_HISTORIQUE = """
         CREATE TABLE tab_historique(
         ID_hist int AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        old_ID_prod int NOT NULL,
-        new_ID_prod int NOT NULL,
-        FOREIGN KEY fk_prod_old(old_ID_prod) REFERENCES tab_products(ID_prod),
-        FOREIGN KEY fk_prod_old_2(new_ID_prod) REFERENCES tab_products(ID_prod)  
+        old_id_prod int NOT NULL,
+        new_id_prod int NOT NULL,
+        FOREIGN KEY fk_prod_old(old_id_prod) REFERENCES tab_products(ID_prod),
+        FOREIGN KEY fk_prod_old_2(new_id_prod) REFERENCES tab_products(ID_prod)  
         )ENGINE=InnoDB
 """
 
-# TABLE tab_categories
+# INSERT tab_categories
 MY_CATEGORIES = (
                 ('tapas',),
                 ('olives',),
@@ -54,8 +58,7 @@ MY_CATEGORIES = (
 )
 SQL_ADD_CAT = """INSERT INTO tab_categories (cat_name) VALUES (%s)"""
 
-# TABLE tab_products
-
+# INSERT tab_products
 SQL_ADD_PROD = """ INSERT INTO tab_products(
                 product_name,
                 url,
@@ -88,7 +91,7 @@ prod_keys = [
             "product_name",
             "url",
             "stores",
-            "purchase_places",      # API fields of the product choosed by ADMIN
+            "purchase_places",  # API fields of the product chose by ADMIN
             "code",
             "nutrition_grades",
             "nova_group",
@@ -97,7 +100,7 @@ prod_keys = [
 
 nutri_keys = [
             "sugars_100g",
-            "salt_100g",            # sub-fields of "nutriments" api fields
+            "salt_100g",     # sub-fields of "nutriments" api fields
             "fat_100g"
 ]
 
