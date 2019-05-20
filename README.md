@@ -1,6 +1,6 @@
 # Project 5: Use public data from OpenFoodFacts
 
-In order to propose healthy food to their customers.
+In order to propose **healthy** food to their customers.
 Pur Beurre, a new food startup, need a software that use the api of OpenFoodFacts
 to compare the quality of the food.  
 
@@ -12,13 +12,13 @@ The software must keep track of the food swap.
 ## Requirements
 
 [more information here](https://github.com/MassDo/Projet_5_OC/blob/master/requirement.txt) with the requirement.txt.  
-to create and virtual environment use this following command in prompt:
+To create and virtual environment use this following command in prompt:  
 ```python -m venv path\to\the\env_name```  
-then to activate it
+then to activate it  
 ```env_name\Scripts\activate.bat```  
 or  
 ```env_name\Scripts\activate.bat```  
-from your virtual environment activate you can now download libraries with this command:
+from your virtual environment activate you can now download libraries with this command:  
 ```pip install -r requirements.txt```  
 
 You have now all the libraries to run the app ! You need just one last thing: launch the server.
