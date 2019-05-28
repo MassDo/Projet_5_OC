@@ -30,7 +30,7 @@ if first_connection(my_cursor):
         
     all_product = TabProducts(products_final)
     all_product.objects.fill()
-    
+# if not first con, recover the products structure from    
 else:
     recover_database_data(my_cursor)
     all_product = TabProducts(products_final)
@@ -102,7 +102,7 @@ while main_loop:
                     ident = all_product.objects.get_id(ID_cat)
                     ident = ident[start_ident:end_ident]
                     
-                    print("\n************************ LISTE \****************\
+                    print("\n************************ LISTE ****************\
 ********\n*")
                     for el in zip(ident, name):
                         print("*\t", el[0][0], "-", el[1].replace("\n", ""))
@@ -153,7 +153,7 @@ while main_loop:
                 again = 1 
                 while again:
                     replace = input("Voulez vous valider\
-le remplacement du produit ? 'o/n'").lower()
+ le remplacement du produit ? 'o/n'").lower()
                     if replace in ("o", "n"):                    
                         again = 0                         
                         if replace == "o":                                    

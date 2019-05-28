@@ -19,7 +19,8 @@ my_cursor = cnx.cursor()
 
 class TabProducts:
     """
-        model of the tab_products
+        model of the table tab_products,
+        the instanciation can be one or many products.
     """
 
     objects = TabProductsRepository(my_cursor, cnx)
@@ -57,7 +58,8 @@ class TabProducts:
 
 class TabHistorique:
     """
-        model of the tab_products
+        model of the table tab_products,
+        the instanciation represent a row of the table.
     """
 
     objects = TabHistoriqueRepository(my_cursor, cnx)
@@ -70,7 +72,8 @@ class TabHistorique:
 
 class TabCategories:
     """
-        model of the tab_products
+        model of the table tab_categories,
+        instanciation represent a row of the table.
     """
 
     objects = TabCategoriesRepository(my_cursor, cnx)
