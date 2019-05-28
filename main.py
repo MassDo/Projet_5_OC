@@ -188,11 +188,10 @@ while main_loop:
         while menu_hist:
 
             print("Votre historique de produits remplacés est:\n")
-            temp = TabHistorique()
-            try:
-                historic = temp.objects.show_products_old_new()
-            except:
-                print("pas d'historique")
+            temp = TabHistorique()            
+            historic = temp.objects.show_products_old_new()
+            if not historic:
+                print("\t\tL'historique est vide")                
 
             for counter,transac in enumerate(historic):
                 counter += 1  

@@ -33,7 +33,7 @@ def create_database(cursor, name):
         cursor.execute(
             "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(name))
         print("\nPremière utilisation\n\
-Création de la base de données.\n Veuillez patienter quelque secondes ...")
+Création de la base de données.\n Veuillez patienter quelques secondes ...")
     except mysql.connector.Error as err:
         print("Failed creating database: {}".format(err))
 
